@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>タンドリーバターチキンカレー | まゆのレシピ資料庫</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color-1: #fdf6f0;
+      --bg-color-2: #fce8f3;
+      --bg-color-3: #f0e8fb;
+      --glass-bg:        rgba(255, 255, 255, 0.65);
+      --glass-bg-strong: rgba(255, 255, 255, 0.85);
+      --glass-border:    rgba(255, 255, 255, 0.90);
+      --glass-shine:     rgba(255, 255, 255, 0.98);
+      --text-main: rgba(70, 45, 80, 0.92);
+      --text-sub:  rgba(110, 80, 120, 0.72);
+      --accent-1: #9b59d0;
+      --accent-2: #e06bab;
+      --accent-glow: rgba(155, 89, 208, 0.25);
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text-main);
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(252, 215, 232, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 85% 80%, rgba(240, 232, 251, 0.6) 0%, transparent 50%),
+        linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2), var(--bg-color-3));
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { word-break: keep-all; overflow-wrap: break-word; }
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(255, 248, 252, 0.75);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.3s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav.is-scrolled {
+      background: rgba(255, 248, 252, 0.92);
+      box-shadow: 0 2px 12px rgba(180, 140, 200, 0.2);
+    }
+    .nav__logo {
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+    .nav.is-scrolled .nav__logo { color: var(--accent-1); }
+    .nav__links { display: flex; gap: var(--space-md); list-style: none; }
+    .nav__links a {
+      font-size: 0.875rem;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .nav__links a:hover { color: var(--accent-1); }
+
+    .section { padding: var(--space-xl) var(--space-md); }
+    .section__inner { max-width: 800px; margin: 0 auto; }
+    .section__label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--accent-1);
+      letter-spacing: 0.12em;
+      margin-bottom: var(--space-xs);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+    .section__title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900;
+      margin-bottom: var(--space-md);
+    }
+
+    .section--hero {
+      background: linear-gradient(135deg, rgba(252, 215, 232, 0.5) 0%, rgba(240, 232, 251, 0.5) 100%);
+      backdrop-filter: blur(30px) saturate(1.5);
+      -webkit-backdrop-filter: blur(30px) saturate(1.5);
+      border-bottom: 1px solid var(--glass-border);
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding-top: calc(var(--space-xl) + 60px);
+    }
+    .hero__sub { font-size: 1rem; color: var(--text-sub); margin-bottom: var(--space-xs); }
+    .hero__title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+      background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero__meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 var(--glass-shine);
+    }
+    .hero__badge .material-icons { font-size: 1.1rem; color: var(--accent-1); }
+
+    .section--ingredients { background: transparent; }
+    .ingredients__group {
+      margin-bottom: var(--space-md);
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: var(--space-md);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-shine);
+      transition: background 0.3s ease;
+    }
+    .ingredients__group:hover { background: var(--glass-bg-strong); }
+    .ingredients__group-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-1);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--glass-border);
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+    .ingredients__table { width: 100%; border-collapse: collapse; }
+    .ingredients__table tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .ingredients__table td { padding: 0.75rem var(--space-sm); font-size: 1rem; color: var(--text-main); }
+    .ingredients__table td:last-child { text-align: right; color: var(--text-sub); font-weight: 700; }
+
+    .section--steps { background: transparent; }
+    .steps__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-md); }
+    .step {
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: var(--space-md);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-shine);
+      transition: background 0.3s ease;
+    }
+    .step:hover { background: var(--glass-bg-strong); }
+    .step__number {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 900;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+    .step__text { padding-top: 0.5rem; font-size: 1rem; line-height: 1.8; color: var(--text-main); }
+
+    .section--tips { background: transparent; }
+    .tips__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-sm); }
+    .tips__item {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: flex-start;
+      font-size: 0.95rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1rem var(--space-sm);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 var(--glass-shine);
+    }
+    .tips__item .material-icons {
+      font-size: 1.1rem; color: var(--accent-1);
+      margin-top: 0.2rem; flex-shrink: 0;
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+
+    .material-icons { color: var(--accent-1); filter: drop-shadow(0 0 8px var(--accent-glow)); }
+
+    .footer {
+      background: rgba(255, 240, 250, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+      padding: var(--space-md);
+      text-align: center;
+      color: var(--text-sub);
+    }
+    .footer__copy { font-size: 0.875rem; opacity: 0.7; }
+
+    .fi {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fi.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .section { padding: var(--space-lg) var(--space-md); }
+      .nav__links { display: none; }
+      .hero__meta { flex-direction: column; gap: var(--space-xs); }
+      .hero__badge { width: fit-content; }
+      .step { gap: var(--space-sm); }
+      .step__number { width: 40px; height: 40px; font-size: 1.1rem; }
+    }
+    body { font-size: 14px; }
+    main {
+      max-width: 960px; margin: 0 auto;
+      padding: calc(48px + 0.6rem) 0.875rem 0.875rem;
+      display: grid;
+      grid-template-areas: "hero hero" "ingredients steps" "tips tips";
+      grid-template-columns: 5fr 7fr;
+      gap: 0.6rem; align-items: start;
+    }
+    .section { padding: 0; }
+    .section__inner { max-width: 100%; }
+    .section__label { font-size: 0.63rem; margin-bottom: 0.2rem; }
+    .section__title { font-size: 0.9rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 2px solid var(--accent-1); }
+    .section--hero { grid-area: hero; min-height: unset; display: block; padding: 0.7rem 1rem; border-bottom: none; border-radius: 10px; border: 1px solid rgba(200,175,220,0.5); }
+    .hero__sub { font-size: 0.68rem; margin-bottom: 0.2rem; }
+    .hero__title { font-size: clamp(1.3rem, 2.8vw, 1.9rem); margin-bottom: 0.45rem; }
+    .hero__meta { gap: 0.4rem; }
+    .hero__badge { padding: 0.2rem 0.6rem; font-size: 0.73rem; box-shadow: none; }
+    .hero__badge .material-icons { font-size: 0.85rem; }
+    .section--ingredients { grid-area: ingredients; }
+    .ingredients__group { margin-bottom: 0.5rem; padding: 0.5rem 0.6rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(155,89,208,0.07); }
+    .ingredients__group-title { font-size: 0.73rem; margin-bottom: 0.3rem; padding-bottom: 0.25rem; }
+    .ingredients__table td { padding: 0.25rem 0.3rem; font-size: 0.82rem; }
+    .ingredients__table td:last-child { white-space: nowrap; padding-left: 0.5rem; }
+    .section--steps { grid-area: steps; }
+    .steps__list { gap: 0.4rem; }
+    .step { padding: 0.5rem 0.6rem; gap: 0.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(155,89,208,0.07); }
+    .step__number { width: 24px; height: 24px; font-size: 0.75rem; box-shadow: none; }
+    .step__text { font-size: 0.88rem; padding-top: 0.05rem; line-height: 1.65; }
+    .section--tips { grid-area: tips; }
+    .tips__list { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+    .tips__item { padding: 0.4rem 0.6rem; font-size: 0.82rem; flex: 1 1 240px; border-radius: 10px; box-shadow: 0 2px 8px rgba(155,89,208,0.07); }
+    .tips__item .material-icons { font-size: 0.88rem; margin-top: 0.1rem; }
+    .footer { padding: 0.55rem 1.25rem; }
+    .footer__copy { font-size: 0.7rem; }
+    @media (max-width: 640px) {
+      main {
+        grid-template-areas: "hero" "ingredients" "steps" "tips";
+        grid-template-columns: 1fr;
+        padding: calc(48px + 0.5rem) 0.6rem 0.6rem;
+      }
+    }
+    @media print {
+      .nav { display: none !important; }
+      .fi { opacity: 1 !important; transform: none !important; }
+      body { background: #fff !important; color: #333 !important; font-size: 11px; }
+      main { padding-top: 0.25rem !important; max-width: 100% !important; gap: 0.4rem; }
+      .section--hero {
+        background: none !important; border: none !important;
+        border-bottom: 2px solid #9b59d0 !important; border-radius: 0 !important;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        padding: 0.4rem 0 !important;
+      }
+      .hero__title { -webkit-text-fill-color: #5a2d91 !important; }
+      .hero__badge { background: #f0e8fb !important; border-color: #c4a6e8 !important; }
+      .ingredients__group, .step, .tips__item {
+        background: #f9f5ff !important; backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important; box-shadow: none !important;
+        border: 1px solid #d8b4fe !important; break-inside: avoid;
+      }
+      .footer { display: none !important; }
+      @page { margin: 1.2cm; size: A4; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="../index.html">まゆのレシピ資料庫</a>
+    <ul class="nav__links">
+      <li><a href="#ingredients">材料</a></li>
+      <li><a href="#steps">作り方</a></li>
+      <li><a href="#tips">メモ</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="section section--hero">
+      <div class="section__inner" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <p class="hero__sub fi">骨付きチキンとスパイスの本格カレー</p>
+          <h1 class="hero__title fi">タンドリー<br>バターチキンカレー</h1>
+          <div class="hero__meta fi">
+            <span class="hero__badge">
+              <span class="material-icons">group</span>
+              4人分
+            </span>
+            <span class="hero__badge">
+              <span class="material-icons">local_fire_department</span>
+              605kcal/人
+            </span>
+            <span class="hero__badge">
+              <span class="material-icons">restaurant</span>
+              洋食
+            </span>
+          </div>
+        </div>
+        <!-- イラスト -->
+        <div class="fi" style="flex-shrink:0;">
+          <svg width="170" height="165" viewBox="0 0 170 165" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="バターチキンカレーのイラスト">
+
+            <!-- 皿 -->
+            <ellipse cx="85" cy="138" rx="68" ry="14" fill="#f0e8f8" stroke="#c8a8e0" stroke-width="1.5"/>
+            <ellipse cx="85" cy="135" rx="68" ry="14" fill="#fdf4ff" stroke="#c8a8e0" stroke-width="1.5"/>
+
+            <!-- ごはん（白い丘） -->
+            <ellipse cx="62" cy="118" rx="32" ry="18" fill="#fffef5" stroke="#e0d8b0" stroke-width="1.2"/>
+            <ellipse cx="62" cy="112" rx="28" ry="14" fill="#fffef5" stroke="#e8e0b8" stroke-width="1"/>
+            <!-- ごはんの粒感 -->
+            <ellipse cx="54" cy="112" rx="2.5" ry="1.5" fill="#f5f0e0" stroke="#d8d0a0" stroke-width="0.6"/>
+            <ellipse cx="62" cy="109" rx="2.5" ry="1.5" fill="#f5f0e0" stroke="#d8d0a0" stroke-width="0.6"/>
+            <ellipse cx="70" cy="112" rx="2.5" ry="1.5" fill="#f5f0e0" stroke="#d8d0a0" stroke-width="0.6"/>
+            <ellipse cx="58" cy="116" rx="2.2" ry="1.4" fill="#f5f0e0" stroke="#d8d0a0" stroke-width="0.6"/>
+            <ellipse cx="67" cy="116" rx="2.2" ry="1.4" fill="#f5f0e0" stroke="#d8d0a0" stroke-width="0.6"/>
+
+            <!-- カレーソース（オレンジ〜赤のリッチなソース） -->
+            <path d="M42 120 Q55 108 85 112 Q115 108 128 120 Q120 135 85 136 Q50 135 42 120Z" fill="#e8703a" opacity="0.9"/>
+            <path d="M48 118 Q65 107 85 110 Q108 107 122 118 Q115 130 85 132 Q55 130 48 118Z" fill="#f08040" opacity="0.8"/>
+            <!-- クリームのスワール -->
+            <path d="M78 116 Q85 112 92 116 Q96 120 90 123 Q85 125 80 123 Q74 120 78 116Z" fill="#fff8f0" opacity="0.7"/>
+            <path d="M83 117 Q85 115 87 117" stroke="#ffe0c0" stroke-width="1" fill="none" opacity="0.8"/>
+
+            <!-- 骨付きチキン（オーブン焼きで香ばしい色） -->
+            <!-- チキン本体 -->
+            <path d="M88 88 Q96 78 110 76 Q122 74 128 82 Q134 90 128 100 Q120 112 108 114 Q96 116 88 108 Q82 100 88 88Z" fill="#c8682a" stroke="#a04810" stroke-width="1.5"/>
+            <!-- 焼き色 -->
+            <path d="M92 90 Q100 82 112 80 Q122 78 126 86 Q130 94 124 102 Q116 110 106 112" stroke="#8a3808" stroke-width="1.2" fill="none" opacity="0.4"/>
+            <!-- チキンの照り -->
+            <ellipse cx="110" cy="88" rx="10" ry="7" fill="#e07830" opacity="0.5" transform="rotate(-20 110 88)"/>
+            <!-- 骨（白） -->
+            <path d="M88 108 Q82 118 78 126 Q76 130 80 132 Q84 134 86 130 Q88 126 90 120" fill="#f0ece0" stroke="#c8c0a0" stroke-width="1.2"/>
+            <!-- 骨の先端の丸み -->
+            <circle cx="80" cy="132" r="5" fill="#f0ece0" stroke="#c8c0a0" stroke-width="1.2"/>
+            <circle cx="80" cy="132" r="3" fill="#e8e4d8"/>
+
+            <!-- スパイス散らし（クミン・コリアンダー風） -->
+            <circle cx="60" cy="120" r="1.2" fill="#8B4513" opacity="0.6"/>
+            <circle cx="72" cy="116" r="1" fill="#8B4513" opacity="0.5"/>
+            <circle cx="100" cy="118" r="1.2" fill="#8B4513" opacity="0.6"/>
+            <circle cx="112" cy="122" r="1" fill="#8B4513" opacity="0.5"/>
+
+            <!-- 湯気 -->
+            <path d="M95 72 C92 64 96 57 93 51" stroke="#e8a070" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+            <path d="M108 68 C105 60 109 53 106 47" stroke="#e8a070" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4"/>
+
+            <!-- 飾りドット -->
+            <circle cx="76" cy="156" r="2" fill="#e0b8d4" opacity="0.5"/>
+            <circle cx="85" cy="158" r="2.5" fill="#e0b8d4" opacity="0.5"/>
+            <circle cx="94" cy="156" r="2" fill="#e0b8d4" opacity="0.5"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--ingredients" id="ingredients">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">list_alt</span>INGREDIENTS</p>
+        <h2 class="section__title fi">材料</h2>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">set_meal</span>
+            メイン
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>骨付き鶏もも肉</td><td>4本（1本150g前後）</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">opacity</span>
+            鶏肉の下味（a）
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>プレーンヨーグルト</td><td>120g</td></tr>
+            <tr><td>塩</td><td>小さじ1</td></tr>
+            <tr><td>黒こしょう</td><td>少々</td></tr>
+            <tr><td>トマトケチャップ</td><td>大さじ1</td></tr>
+            <tr><td>アーモンドパウダー</td><td>小さじ4</td></tr>
+            <tr><td>コリアンダーパウダー</td><td>小さじ2</td></tr>
+            <tr><td>パプリカパウダー</td><td>小さじ2</td></tr>
+            <tr><td>チリパウダー</td><td>小さじ1</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">local_fire_department</span>
+            カレーベース
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>玉ねぎ（薄切り）</td><td>240g</td></tr>
+            <tr><td>塩</td><td>小さじ1/2</td></tr>
+            <tr><td>サラダ油</td><td>小さじ2</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">spa</span>
+            スパイス（b）
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>トマトケチャップ</td><td>大さじ1</td></tr>
+            <tr><td>おろしにんにく</td><td>小さじ1</td></tr>
+            <tr><td>おろししょうが</td><td>小さじ1</td></tr>
+            <tr><td>カレー粉</td><td>大さじ1</td></tr>
+            <tr><td>クミンシード</td><td>小さじ1</td></tr>
+            <tr><td>コリアンダーパウダー</td><td>小さじ1</td></tr>
+            <tr><td>チリパウダー</td><td>小さじ1</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">soup_kitchen</span>
+            煮込み用
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>カットトマト</td><td>200g</td></tr>
+            <tr><td>水</td><td>200cc</td></tr>
+            <tr><td>コンソメ（顆粒）</td><td>小さじ2</td></tr>
+            <tr><td>はちみつ</td><td>小さじ1</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">star</span>
+            仕上げ
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>生クリーム</td><td>120g</td></tr>
+            <tr><td>バター</td><td>10g</td></tr>
+            <tr><td>ガラムマサラ</td><td>小さじ1/2</td></tr>
+            <tr><td>塩</td><td>少々</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">rice_bowl</span>
+            ごはん
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>米</td><td>160cc</td></tr>
+            <tr><td>水</td><td>160cc</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--steps" id="steps">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">format_list_numbered</span>HOW TO MAKE</p>
+        <h2 class="section__title fi">作り方</h2>
+        <ol class="steps__list">
+          <li class="step fi">
+            <div class="step__number">1</div>
+            <p class="step__text">鶏肉は余分な水気と脂肪を除き、皮の面に穴をあけ、骨に沿って切り込みを入れる</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">2</div>
+            <p class="step__text">全体に塩・黒こしょう（分量外）をもみ込む</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">3</div>
+            <p class="step__text">ボウルで（a）を混ぜ合わせ、鶏肉全体にもみ込む。クッキングシートを敷いた天板に並べ10分以上置く</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">4</div>
+            <p class="step__text">予熱したオーブン（電気230℃25分〜／ガス220℃20分〜）で鶏肉を焼く</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">5</div>
+            <p class="step__text">並行して鍋に油を熱し、玉ねぎと塩を入れ、あめ色になるまでつぶしながら中〜強火で15分ほど炒める</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">6</div>
+            <p class="step__text">炒めた玉ねぎに（b）を加え、香りが出るまで炒める</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">7</div>
+            <p class="step__text">カットトマト・水・コンソメ・はちみつを加え、沸騰後中火で6分以上煮込む</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">8</div>
+            <p class="step__text">生クリームとバターを加えて温め、ガラムマサラと塩で味を調える</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">9</div>
+            <p class="step__text">器に炊いたごはんを盛り、カレーをかけ、焼き上がったチキンをのせて完成</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--tips" id="tips">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">lightbulb</span>MEMO</p>
+        <h2 class="section__title fi">メモ・コツ</h2>
+        <ul class="tips__list">
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>皮に竹串で穴をあけることで、加熱時の焼き縮みを防ぎ、火通りと味の染み込みが良くなる</span>
+          </li>
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>天板の上で皮の面にムラなく（a）を塗ると、焼いている間も味が馴染む</span>
+          </li>
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>はちみつを加えることでソースにコクと甘みがプラスされる</span>
+          </li>
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>おもてなしにも最適な本格的な味わい。スパイスは好みで量を調整してOK</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">© 2026 まゆのレシピ資料庫</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>豆苗サラダ | まゆのレシピ資料庫</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color-1: #fdf6f0;
+      --bg-color-2: #fce8f3;
+      --bg-color-3: #f0e8fb;
+      --glass-bg:        rgba(255, 255, 255, 0.65);
+      --glass-bg-strong: rgba(255, 255, 255, 0.85);
+      --glass-border:    rgba(255, 255, 255, 0.90);
+      --glass-shine:     rgba(255, 255, 255, 0.98);
+      --text-main: rgba(70, 45, 80, 0.92);
+      --text-sub:  rgba(110, 80, 120, 0.72);
+      --accent-1: #9b59d0;
+      --accent-2: #e06bab;
+      --accent-glow: rgba(155, 89, 208, 0.25);
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+      --radius-sm: 4px;
+      --radius-md: 8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text-main);
+      line-height: 1.8;
+      letter-spacing: 0.03em;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(252, 215, 232, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 85% 80%, rgba(240, 232, 251, 0.6) 0%, transparent 50%),
+        linear-gradient(135deg, var(--bg-color-1), var(--bg-color-2), var(--bg-color-3));
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    h1, h2, h3 { word-break: keep-all; overflow-wrap: break-word; }
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(255, 248, 252, 0.75);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.3s, box-shadow 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav.is-scrolled {
+      background: rgba(255, 248, 252, 0.92);
+      box-shadow: 0 2px 12px rgba(180, 140, 200, 0.2);
+    }
+    .nav__logo {
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+    .nav.is-scrolled .nav__logo { color: var(--accent-1); }
+    .nav__links { display: flex; gap: var(--space-md); list-style: none; }
+    .nav__links a {
+      font-size: 0.875rem;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .nav__links a:hover { color: var(--accent-1); }
+
+    .section { padding: var(--space-xl) var(--space-md); }
+    .section__inner { max-width: 800px; margin: 0 auto; }
+    .section__label {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--accent-1);
+      letter-spacing: 0.12em;
+      margin-bottom: var(--space-xs);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+    .section__title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 900;
+      margin-bottom: var(--space-md);
+    }
+
+    .section--hero {
+      background: linear-gradient(135deg, rgba(252, 215, 232, 0.5) 0%, rgba(240, 232, 251, 0.5) 100%);
+      backdrop-filter: blur(30px) saturate(1.5);
+      -webkit-backdrop-filter: blur(30px) saturate(1.5);
+      border-bottom: 1px solid var(--glass-border);
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding-top: calc(var(--space-xl) + 60px);
+    }
+    .hero__sub { font-size: 1rem; color: var(--text-sub); margin-bottom: var(--space-xs); }
+    .hero__title {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: var(--space-md);
+      background: linear-gradient(135deg, var(--accent-2) 0%, var(--accent-1) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero__meta { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px) saturate(1.5);
+      -webkit-backdrop-filter: blur(20px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 var(--glass-shine);
+    }
+    .hero__badge .material-icons { font-size: 1.1rem; color: var(--accent-1); }
+
+    .section--ingredients { background: transparent; }
+    .ingredients__group {
+      margin-bottom: var(--space-md);
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: var(--space-md);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-shine);
+      transition: background 0.3s ease;
+    }
+    .ingredients__group:hover { background: var(--glass-bg-strong); }
+    .ingredients__group-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-1);
+      margin-bottom: var(--space-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--glass-border);
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+    .ingredients__table { width: 100%; border-collapse: collapse; }
+    .ingredients__table tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .ingredients__table td { padding: 0.75rem var(--space-sm); font-size: 1rem; color: var(--text-main); }
+    .ingredients__table td:last-child { text-align: right; color: var(--text-sub); font-weight: 700; }
+    .ingredients__note { font-size: 0.875rem; color: var(--text-sub); margin-top: var(--space-xs); }
+
+    .section--steps { background: transparent; }
+    .steps__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-md); }
+    .step {
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: var(--space-md);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 var(--glass-shine);
+      transition: background 0.3s ease;
+    }
+    .step:hover { background: var(--glass-bg-strong); }
+    .step__number {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 900;
+      box-shadow: 0 4px 16px var(--accent-glow);
+    }
+    .step__text { padding-top: 0.5rem; font-size: 1rem; line-height: 1.8; color: var(--text-main); }
+    .step__note { font-size: 0.875rem; color: var(--text-sub); margin-top: 0.3rem; }
+
+    .section--tips { background: transparent; }
+    .tips__list { list-style: none; display: flex; flex-direction: column; gap: var(--space-sm); }
+    .tips__item {
+      display: flex;
+      gap: var(--space-xs);
+      align-items: flex-start;
+      font-size: 0.95rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(1.5);
+      -webkit-backdrop-filter: blur(24px) saturate(1.5);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 1rem var(--space-sm);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2), inset 0 1px 0 var(--glass-shine);
+    }
+    .tips__item .material-icons {
+      font-size: 1.1rem; color: var(--accent-1);
+      margin-top: 0.2rem; flex-shrink: 0;
+      filter: drop-shadow(0 0 6px var(--accent-glow));
+    }
+
+    .material-icons { color: var(--accent-1); filter: drop-shadow(0 0 8px var(--accent-glow)); }
+
+    .footer {
+      background: rgba(255, 240, 250, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+      padding: var(--space-md);
+      text-align: center;
+      color: var(--text-sub);
+    }
+    .footer__copy { font-size: 0.875rem; opacity: 0.7; }
+
+    .fi {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fi.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .section { padding: var(--space-lg) var(--space-md); }
+      .nav__links { display: none; }
+      .hero__meta { flex-direction: column; gap: var(--space-xs); }
+      .hero__badge { width: fit-content; }
+      .step { gap: var(--space-sm); }
+      .step__number { width: 40px; height: 40px; font-size: 1.1rem; }
+    }
+    body { font-size: 14px; }
+    main {
+      max-width: 960px; margin: 0 auto;
+      padding: calc(48px + 0.6rem) 0.875rem 0.875rem;
+      display: grid;
+      grid-template-areas: "hero hero" "ingredients steps" "tips tips";
+      grid-template-columns: 5fr 7fr;
+      gap: 0.6rem; align-items: start;
+    }
+    .section { padding: 0; }
+    .section__inner { max-width: 100%; }
+    .section__label { font-size: 0.63rem; margin-bottom: 0.2rem; }
+    .section__title { font-size: 0.9rem; margin-bottom: 0.5rem; padding-bottom: 0.25rem; border-bottom: 2px solid var(--accent-1); }
+    .section--hero { grid-area: hero; min-height: unset; display: block; padding: 0.7rem 1rem; border-bottom: none; border-radius: 10px; border: 1px solid rgba(200,175,220,0.5); }
+    .hero__sub { font-size: 0.68rem; margin-bottom: 0.2rem; }
+    .hero__title { font-size: clamp(1.3rem, 2.8vw, 1.9rem); margin-bottom: 0.45rem; }
+    .hero__meta { gap: 0.4rem; }
+    .hero__badge { padding: 0.2rem 0.6rem; font-size: 0.73rem; box-shadow: none; }
+    .hero__badge .material-icons { font-size: 0.85rem; }
+    .section--ingredients { grid-area: ingredients; }
+    .ingredients__group { margin-bottom: 0.5rem; padding: 0.5rem 0.6rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(155,89,208,0.07); }
+    .ingredients__group-title { font-size: 0.73rem; margin-bottom: 0.3rem; padding-bottom: 0.25rem; }
+    .ingredients__table td { padding: 0.25rem 0.3rem; font-size: 0.82rem; }
+    .ingredients__table td:last-child { white-space: nowrap; padding-left: 0.5rem; }
+    .section--steps { grid-area: steps; }
+    .steps__list { gap: 0.4rem; }
+    .step { padding: 0.5rem 0.6rem; gap: 0.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(155,89,208,0.07); }
+    .step__number { width: 24px; height: 24px; font-size: 0.75rem; box-shadow: none; }
+    .step__text { font-size: 0.88rem; padding-top: 0.05rem; line-height: 1.65; }
+    .step__note { font-size: 0.75rem; margin-top: 0.15rem; }
+    .section--tips { grid-area: tips; }
+    .tips__list { flex-direction: row; flex-wrap: wrap; gap: 0.4rem; }
+    .tips__item { padding: 0.4rem 0.6rem; font-size: 0.82rem; flex: 1 1 240px; border-radius: 10px; box-shadow: 0 2px 8px rgba(155,89,208,0.07); }
+    .tips__item .material-icons { font-size: 0.88rem; margin-top: 0.1rem; }
+    .footer { padding: 0.55rem 1.25rem; }
+    .footer__copy { font-size: 0.7rem; }
+    @media (max-width: 640px) {
+      main {
+        grid-template-areas: "hero" "ingredients" "steps" "tips";
+        grid-template-columns: 1fr;
+        padding: calc(48px + 0.5rem) 0.6rem 0.6rem;
+      }
+    }
+    @media print {
+      .nav { display: none !important; }
+      .fi { opacity: 1 !important; transform: none !important; }
+      body { background: #fff !important; color: #333 !important; font-size: 11px; }
+      main { padding-top: 0.25rem !important; max-width: 100% !important; gap: 0.4rem; }
+      .section--hero {
+        background: none !important; border: none !important;
+        border-bottom: 2px solid #9b59d0 !important; border-radius: 0 !important;
+        backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+        padding: 0.4rem 0 !important;
+      }
+      .hero__title { -webkit-text-fill-color: #5a2d91 !important; }
+      .hero__badge { background: #f0e8fb !important; border-color: #c4a6e8 !important; }
+      .ingredients__group, .step, .tips__item {
+        background: #f9f5ff !important; backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important; box-shadow: none !important;
+        border: 1px solid #d8b4fe !important; break-inside: avoid;
+      }
+      .footer { display: none !important; }
+      @page { margin: 1.2cm; size: A4; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <a class="nav__logo" href="../index.html">まゆのレシピ資料庫</a>
+    <ul class="nav__links">
+      <li><a href="#ingredients">材料</a></li>
+      <li><a href="#steps">作り方</a></li>
+      <li><a href="#tips">メモ</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section class="section section--hero">
+      <div class="section__inner" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+        <div style="flex:1; min-width:200px;">
+          <p class="hero__sub fi">シャキシャキ食感がたまらない</p>
+          <h1 class="hero__title fi">豆苗サラダ</h1>
+          <div class="hero__meta fi">
+            <span class="hero__badge">
+              <span class="material-icons">group</span>
+              2〜3人分
+            </span>
+            <span class="hero__badge">
+              <span class="material-icons">schedule</span>
+              約10分
+            </span>
+            <span class="hero__badge">
+              <span class="material-icons">restaurant</span>
+              和食
+            </span>
+          </div>
+        </div>
+        <!-- イラスト：サラダボウルに豆苗とツナ -->
+        <div class="fi" style="flex-shrink:0;">
+          <svg width="165" height="160" viewBox="0 0 165 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="豆苗サラダのイラスト">
+
+            <!-- ボウル本体 -->
+            <path d="M18 88 Q18 138 82 148 Q146 138 146 88 Z" fill="#f5f0fc" stroke="#b39ddb" stroke-width="1.8" stroke-linejoin="round"/>
+            <!-- ボウル上部の縁 -->
+            <ellipse cx="82" cy="88" rx="64" ry="18" fill="#f5f0fc" stroke="#b39ddb" stroke-width="1.8"/>
+            <!-- ボウル内側（少し暗め） -->
+            <ellipse cx="82" cy="88" rx="56" ry="14" fill="#ede6fa" stroke="#c4a6e8" stroke-width="1"/>
+
+            <!-- ツナ（ほぐれた感じ・ベージュの塊） -->
+            <ellipse cx="68" cy="85" rx="14" ry="6" fill="#f0d8b0" stroke="#c8a870" stroke-width="1.2"/>
+            <ellipse cx="78" cy="83" rx="10" ry="4" fill="#f5e0c0" stroke="#c8a870" stroke-width="1" opacity="0.8"/>
+            <ellipse cx="58" cy="83" rx="8" ry="3.5" fill="#ead0a0" stroke="#c8a870" stroke-width="1" opacity="0.7"/>
+
+            <!-- 玉ねぎ（半透明の薄いスライス） -->
+            <path d="M90 86 Q98 82 106 86 Q104 90 96 91 Q89 90 90 86Z" fill="rgba(255,245,220,0.7)" stroke="#e8c880" stroke-width="1"/>
+            <path d="M93 84 Q100 81 107 84" stroke="#e8c880" stroke-width="0.8" fill="none" opacity="0.6"/>
+
+            <!-- 豆苗（横向き・ランダムに混ざった盛り付け） -->
+            <!-- 茎ごと横倒し・カーブした自然な形 -->
+            <path d="M32 92 Q50 78 68 82" stroke="#5aad5a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="30" cy="91" rx="7" ry="4" fill="#9ed89e" stroke="#5aad5a" stroke-width="1.1" transform="rotate(10 30 91)"/>
+            <ellipse cx="68" cy="80" rx="7" ry="4" fill="#7ec87e" stroke="#5aad5a" stroke-width="1.1" transform="rotate(-15 68 80)"/>
+
+            <path d="M55 96 Q72 84 90 88" stroke="#4a9a4a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="53" cy="95" rx="6.5" ry="3.5" fill="#7ec87e" stroke="#4a9a4a" stroke-width="1" transform="rotate(20 53 95)"/>
+            <ellipse cx="92" cy="87" rx="6.5" ry="3.5" fill="#9ed89e" stroke="#4a9a4a" stroke-width="1" transform="rotate(-5 92 87)"/>
+
+            <path d="M78 92 Q95 80 114 85" stroke="#5aad5a" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+            <ellipse cx="76" cy="91" rx="6" ry="3.5" fill="#8ed08e" stroke="#5aad5a" stroke-width="1" transform="rotate(15 76 91)"/>
+            <ellipse cx="116" cy="84" rx="6" ry="3.5" fill="#7ec87e" stroke="#5aad5a" stroke-width="1" transform="rotate(-10 116 84)"/>
+
+            <path d="M40 84 Q58 76 74 80" stroke="#6ab86a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="38" cy="83" rx="6" ry="3.5" fill="#9ed89e" stroke="#6ab86a" stroke-width="1" transform="rotate(-5 38 83)"/>
+            <ellipse cx="76" cy="79" rx="6" ry="3.5" fill="#8ed08e" stroke="#6ab86a" stroke-width="1" transform="rotate(10 76 79)"/>
+
+            <path d="M95 93 Q110 83 128 87" stroke="#5aad5a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="93" cy="92" rx="6" ry="3.5" fill="#7ec87e" stroke="#5aad5a" stroke-width="1" transform="rotate(20 93 92)"/>
+            <ellipse cx="130" cy="86" rx="6" ry="3.5" fill="#9ed89e" stroke="#5aad5a" stroke-width="1" transform="rotate(-8 130 86)"/>
+
+            <!-- ツナ（葉の間から見える・ボウル内に自然に配置） -->
+            <ellipse cx="62" cy="87" rx="11" ry="5" fill="#f0d8b0" stroke="#c8a870" stroke-width="1.2"/>
+            <ellipse cx="72" cy="85" rx="7" ry="3.5" fill="#f5e0c0" stroke="#c8a870" stroke-width="1" opacity="0.85"/>
+            <ellipse cx="100" cy="90" rx="9" ry="4" fill="#ead0a0" stroke="#c8a870" stroke-width="1.1"/>
+
+            <!-- 玉ねぎの薄切り（透けた感じ） -->
+            <path d="M84 83 Q92 80 100 83 Q98 87 90 88 Q83 87 84 83Z" fill="rgba(255,245,220,0.75)" stroke="#ddc878" stroke-width="0.9"/>
+
+            <!-- ごま油のツヤ（全体にうっすら） -->
+            <ellipse cx="78" cy="90" rx="30" ry="8" fill="rgba(255,215,80,0.10)" stroke="none"/>
+
+            <!-- 飾りドット -->
+            <circle cx="68" cy="150" r="2" fill="#c4a6e8" opacity="0.4"/>
+            <circle cx="82" cy="153" r="2.5" fill="#c4a6e8" opacity="0.4"/>
+            <circle cx="96" cy="150" r="2" fill="#c4a6e8" opacity="0.4"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--ingredients" id="ingredients">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">list_alt</span>INGREDIENTS</p>
+        <h2 class="section__title fi">材料</h2>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">set_meal</span>
+            メイン
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>豆苗</td><td>1パック</td></tr>
+            <tr><td>玉ねぎ（スライス）</td><td>少し</td></tr>
+            <tr><td>ツナ缶</td><td>1缶</td></tr>
+          </table>
+        </div>
+
+        <div class="ingredients__group fi">
+          <h3 class="ingredients__group-title">
+            <span class="material-icons" style="font-size:1.1rem">opacity</span>
+            ◎調味料（各小さじ1）
+          </h3>
+          <table class="ingredients__table">
+            <tr><td>砂糖</td><td>小さじ1</td></tr>
+            <tr><td>鶏がらスープ素</td><td>小さじ1</td></tr>
+            <tr><td>醤油</td><td>小さじ1</td></tr>
+            <tr><td>酢</td><td>小さじ1</td></tr>
+            <tr><td>ごま油</td><td>小さじ1</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--steps" id="steps">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">format_list_numbered</span>HOW TO MAKE</p>
+        <h2 class="section__title fi">作り方</h2>
+        <ol class="steps__list">
+          <li class="step fi">
+            <div class="step__number">1</div>
+            <p class="step__text">豆苗は洗って食べやすい大きさに切る。玉ねぎはスライスする</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">2</div>
+            <p class="step__text">砂糖・鶏がらスープ素を合わせてよく混ぜる</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">3</div>
+            <p class="step__text">醤油・酢・ごま油を加えてさらに混ぜる</p>
+          </li>
+          <li class="step fi">
+            <div class="step__number">4</div>
+            <p class="step__text">ツナ缶を汁ごと加えて全体をよく混ぜたら完成</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--tips" id="tips">
+      <div class="section__inner">
+        <p class="section__label fi"><span class="material-icons" style="font-size:1rem">lightbulb</span>MEMO</p>
+        <h2 class="section__title fi">メモ・コツ</h2>
+        <ul class="tips__list">
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>調味料を先に混ぜてから野菜と合わせると味がなじみやすい</span>
+          </li>
+          <li class="tips__item fi">
+            <span class="material-icons">lightbulb</span>
+            <span>豆苗は根元を切り落とし、半分くらいの長さに切ると食べやすい</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">© 2026 まゆのレシピ資料庫</p>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('is-scrolled', window.scrollY > 50);
+    });
+  </script>
+</body>
+</html>
